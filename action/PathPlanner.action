@@ -1,2 +1,11 @@
+int32 start_floor
+int32 destination_floor
+string start_area
+string destination_area
+string start_local_area
+string destination_local_area
+Point start_position
+string destination_task
 ---
+PlannerArea[] planner_areas
 ---

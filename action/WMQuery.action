@@ -1,2 +1,23 @@
+int32 id
+string ref
+string type
+int32 scope_id
+int32 scope_type
 ---
+Area area
+Building building
+Connection connection
+Corridor corridor
+Door door
+Elevator elevator
+Feature feature
+Floor floor
+LocalArea local_area
+Point point
+Room room
+Shape shape
+Side side
+Stairs stairs
+Wall wall
+string status
 ---
