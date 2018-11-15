@@ -59,6 +59,6 @@ class OSMBridge(object):
 
 if __name__ == "__main__":
     rospy.init_node('OSMBridge')
-    osm_bridge = OSMWMBridge()
+    osm_bridge = OSMBridge()
     
     rospy.spin()
