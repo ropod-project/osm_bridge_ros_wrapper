@@ -8,7 +8,7 @@ from osm_bridge_ros_wrapper.msg import WMQueryAction, WMQueryGoal, WMQueryResult
 from osm_bridge_ros_wrapper.msg import PathPlannerAction, PathPlannerGoal, PathPlannerResult 
 from osm_bridge_ros_wrapper.msg import GridMapGeneratorAction, GridMapGeneratorGoal, GridMapGeneratorResult 
 
-class OSMBridge(object):
+class OSMWMBridge(object):
 
   def __init__(self):
       server_ip = rospy.get_param('~overpass_server_ip')
@@ -19,7 +19,7 @@ class OSMBridge(object):
       self.wm_query_server = actionlib.SimpleActionServer('/wm_query', WMQueryAction, self.wm_query, False)
       self.wm_query_server.start()
 
-      self.osm_query_server = actionlib.SimpleActionServer('/wm_query', OSMQueryAction, self.osm_query, False)
+      self.osm_query_server = actionlib.SimpleActionServer('/osm_query', OSMQueryAction, self.osm_query, False)
       self.osm_query_server.start()
 
       self.path_planner_server = actionlib.SimpleActionServer('/path_planner', PathPlannerAction, self.path_planner, False)
@@ -36,10 +36,10 @@ class OSMBridge(object):
       self.wm_query_server.set_succeeded(res)
 
   def osm_query(self, req):
+      ''' Access the input of the osm_query message and ask OSMBridge for it.
+      After receiving info from OSMBridge, it packages it as response message and send it back.
+      '''
       res = OSMQueryResult()
-      '''
-
-      '''
       self.osm_query_server.set_succeeded(res)
 
   def path_planner(self, req):
@@ -50,10 +50,10 @@ class OSMBridge(object):
       self.path_planner_server.set_succeeded(res)
 
   def grid_map_generator(self, req):
-      res = GridMapGeneratorResult()
       '''
 
       '''
+      res = GridMapGeneratorResult()
       self.grid_map_generator_server.set_succeeded(res)
 
 
