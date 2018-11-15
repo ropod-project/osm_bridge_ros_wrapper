@@ -1,3 +1,3 @@
-string ref
+int32 ref
 string role
 string type

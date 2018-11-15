@@ -30,13 +30,12 @@ include_directories(
 )
 
 add_message_files(
-  DIRECTORY msg/osm
   FILES
   Node.msg
   Way.msg
-  Tag.msg
   Relation.msg
   Member.msg
+  Tag.msg
 )
 
 add_message_files(

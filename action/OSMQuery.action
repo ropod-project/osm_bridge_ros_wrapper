@@ -1,3 +1,4 @@
+# goal
 int32[] ids
 string type
 string role
@@ -6,8 +7,11 @@ string scope_id
 string scope_role
 string scope_role_type
 Tag[] tags
+string query
 ---
+# result 
 Node[] nodes
 Way[] ways
 Relation[] relations
 ---
+# feedback
