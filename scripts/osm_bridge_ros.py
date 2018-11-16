@@ -67,7 +67,7 @@ class OSMBridgeROS(object):
         self.wm_query_server.set_succeeded(res)
 
     def _osm_query(self, req):
-        ''' Access the input of the osm_query message and ask OSMBridge for it.
+        ''' Access the fields of goal of the osm_query message and ask OSMBridge for it.
         After receiving info from OSMBridge, it packages it as response message and send it back.
         '''
 #         rospy.loginfo(req)
@@ -82,10 +82,24 @@ class OSMBridgeROS(object):
         self.path_planner_server.set_succeeded(res)
 
     def _grid_map_generator(self, req):
+        '''Access the fields of goal of GridMapGenerator.action message and call
+        OccGridGenerator with those parameters and return the response to the sender.
         '''
-
-        '''
+        local_offset_x = req.local_offset_x
+        local_offset_y = req.local_offset_y
+        resolution = req.resolution
+        dimension = req.dimension
+        dirname = req.dirname
+        filename = req.filename
+        floor = req.floor
+        self.occ_grid_generator.setDimension(dimension)
+        self.occ_grid_generator.setResolution(resolution)
+        self.occ_grid_generator.setDirName(dirname)
+        self.occ_grid_generator.setFileName(filename)
+        self.occ_grid_generator.setLocalOffset([local_offset_x, local_offset_y])
+        filename = self.occ_grid_generator.generate_map(floor=floor)
         res = GridMapGeneratorResult()
+        res.filename = filename
         self.grid_map_generator_server.set_succeeded(res)
 
 
