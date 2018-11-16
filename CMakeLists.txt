@@ -61,6 +61,8 @@ add_message_files(
   Side.msg
   Stairs.msg
   Wall.msg
+  Point.msg
+  Shape.msg
 )
 
 

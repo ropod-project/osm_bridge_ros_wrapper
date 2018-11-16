@@ -1,5 +1,4 @@
 int32 id
-string ref
 int32[] levels
 int32[] wall_ids
 int32[] door_ids

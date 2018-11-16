@@ -3,17 +3,12 @@
 PACKAGE = 'osm_bridge_ros_wrapper'
 NODE = 'osm_bridge_ros'
 
-# import overpass
-# import utm
 from OBL import OSMBridge, OSMAdapter, OccGridGenerator
 import rospy
 from actionlib import SimpleActionServer 
 from osm_bridge_ros_wrapper.msg import *
 from osm_query_callback import OSMQueryCallback
-# from osm_bridge_ros_wrapper.msg import OSMQueryAction, OSMQueryGoal, OSMQueryResult 
-# from osm_bridge_ros_wrapper.msg import WMQueryAction, WMQueryGoal, WMQueryResult 
-# from osm_bridge_ros_wrapper.msg import PathPlannerAction, PathPlannerGoal, PathPlannerResult 
-# from osm_bridge_ros_wrapper.msg import GridMapGeneratorAction, GridMapGeneratorGoal, GridMapGeneratorResult 
+from wm_query_callback import WMQueryCallback
 
 class OSMBridgeROS(object):
 
@@ -46,6 +41,7 @@ class OSMBridgeROS(object):
 
         self.wm_query_server = SimpleActionServer('/wm_query', WMQueryAction, self._wm_query, False)
         self.wm_query_server.start()
+        self.wm_query_callback = WMQueryCallback(self.osm_bridge)
 
         self.osm_query_server = SimpleActionServer('/osm_query', OSMQueryAction, self._osm_query, False)
         self.osm_query_server.start()
@@ -60,11 +56,11 @@ class OSMBridgeROS(object):
         rospy.loginfo("Servers started. Listening for queries...")
 
     def _wm_query(self, req):
-        res = WMQueryResult()
-        '''
-
-        '''
-        self.wm_query_server.set_succeeded(res)
+        res = self.wm_query_callback.get_response(req)
+        if res is not None:
+            self.wm_query_server.set_succeeded(res)
+        else:
+            self.wm_query_server.set_rejected(res)
 
     def _osm_query(self, req):
         ''' Access the fields of goal of the osm_query message and ask OSMBridge for it.

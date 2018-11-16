@@ -68,11 +68,11 @@ class OSMQueryCallback(object):
     def _get_tag_msg_list_from_tag_obj_list(self, tags_obj_list) :
         tags = []
         for i in tags_obj_list :
-            tags.append(Tag(key=i.key, value=i.value))
+            tags.append(Tag(key=str(i.key), value=str(i.value)))
         return tags
 
     def _get_member_msg_list_from_member_obj_list(self, member_obj_list) :
         members = []
         for i in member_obj_list :
-            members.append(Member(ref=i.ref, role=i.role, type=i.type))
+            members.append(Member(ref=i.ref, role=str(i.role), type=str(i.type)))
         return members

@@ -19,5 +19,5 @@ Shape shape
 Side side
 Stairs stairs
 Wall wall
-string status
+string output
 ---
