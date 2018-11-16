@@ -1,2 +1,10 @@
+float32 local_offset_x
+float32 local_offset_y
+float32 resolution
+int32 dimension
+string dirname
+string filename
+int32 floor
 ---
+string filename
 ---
