@@ -10,7 +10,7 @@ from actionlib import SimpleActionClient
 
 class GridmapGeneratorClient(object):
 
-    """A test for osm_bridge_ros.py 's osm_query_server"""
+    """A test for osm_bridge_ros.py 's gridmap_generator_server"""
 
     def __init__(self):
         rospy.loginfo("inside __init__ of OSMClient")
