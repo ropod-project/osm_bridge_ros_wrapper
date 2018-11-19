@@ -1,6 +1,6 @@
 int32 id
 string ref
-int32[] level
+int32[] levels
 int32[] wall_ids
 int32[] door_ids
 int32[] connection_ids

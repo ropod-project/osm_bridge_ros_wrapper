@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 PACKAGE = 'osm_bridge_ros_wrapper'
-NODE = 'osm_client'
+NODE = 'osm_query_client'
 
 import rospy
 from osm_bridge_ros_wrapper.msg import *
 from actionlib import SimpleActionClient
 
-class OSMClient(object):
+class OSMQueryClient(object):
 
     """A test for osm_bridge_ros.py 's osm_query_server"""
 
@@ -51,8 +51,8 @@ class OSMClient(object):
         rospy.signal_shutdown("Test complete")
 
     def done_cb(self, status, result):
-#         rospy.loginfo(status)
-#         rospy.loginfo(result)
+        # rospy.loginfo(status)
+        # rospy.loginfo(result)
         try:
             assert(len(result.nodes) > 0 or len(result.ways) > 0 or len(result.relations) > 0)
             rospy.loginfo("Test passed")
@@ -63,5 +63,5 @@ class OSMClient(object):
 
 if __name__ == "__main__":
     rospy.init_node(NODE)
-    tester = OSMClient()
+    tester = OSMQueryClient()
     rospy.spin()

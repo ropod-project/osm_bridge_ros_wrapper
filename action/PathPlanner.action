@@ -1,5 +1,5 @@
-int32 start_floor
-int32 destination_floor
+string start_floor
+string destination_floor
 string start_area
 string destination_area
 string start_local_area

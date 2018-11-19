@@ -17,42 +17,52 @@ class WMQueryClient(object):
         connected = self.client.wait_for_server()
         rospy.loginfo("Connected to server")
 
+        print("Running building test")
         req = WMQueryGoal(id=149, type="building")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
+        print("Running floor test")
         req = WMQueryGoal(id=164, type="floor")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
+        print("Running elevator test")
         req = WMQueryGoal(id=5, type="elevator")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
+        print("Running corridor test")
         req = WMQueryGoal(id=140, type="corridor")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
+        print("Running corridor test")
         req = WMQueryGoal(ref='AMK_B_L-1_C14', type="corridor")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
+        print("Running room test")
         req = WMQueryGoal(id=22, type="room")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
+        print("Running local_area test")
         req = WMQueryGoal(id=173, type="local_area")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
+        print("Running door test")
         req = WMQueryGoal(id=161, type="door")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
+        print("Running point test")
         req = WMQueryGoal(id=4865, type="point")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
+        print("Running shape test")
         req = WMQueryGoal(id=1021, type="shape")
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()

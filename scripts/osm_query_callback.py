@@ -1,11 +1,11 @@
 from osm_bridge_ros_wrapper.msg import *
+from obl_osm_to_ros_adapter import OBLOSMToROSAdapter 
 
 class OSMQueryCallback(object):
 
     """callback for osm query server"""
 
     def __init__(self, osm_adapter):
-        """TODO: to be defined1. """
         self.osm_adapter = osm_adapter
 
     def get_response(self, req):
@@ -34,45 +34,10 @@ class OSMQueryCallback(object):
         elif len(query) > 0 :
             nodes, ways, relations = self.osm_adapter.get(query)
         res = OSMQueryResult()
-        for i in nodes:
-            res.nodes.append(self._get_node_msg_from_node_obj(i))
-        for i in ways:
-            res.ways.append(self._get_way_msg_from_way_obj(i))
-        for i in relations :
-            res.relations.append(self._get_relation_msg_from_relation_obj(i))
+        for node in nodes:
+            res.nodes.append(OBLOSMToROSAdapter.get_node_msg_from_node_obj(node))
+        for way in ways:
+            res.ways.append(OBLOSMToROSAdapter.get_way_msg_from_way_obj(way))
+        for relation in relations :
+            res.relations.append(OBLOSMToROSAdapter.get_relation_msg_from_relation_obj(relation))
         return res
-
-
-    def _get_node_msg_from_node_obj(self, node_obj) :
-        node = Node()
-        node.id = node_obj.id
-        node.lat = node_obj.lat
-        node.lon = node_obj.lon
-        node.tags = self._get_tag_msg_list_from_tag_obj_list(node_obj.tags)
-        return node
-
-    def _get_way_msg_from_way_obj(self, way_obj) :
-        way = Way()
-        way.id = way_obj.id
-        way.node_ids = way_obj.nodes
-        way.tags = self._get_tag_msg_list_from_tag_obj_list(way_obj.tags)
-        return way
-
-    def _get_relation_msg_from_relation_obj(self, rel_obj) :
-        relation = Relation()
-        relation.id = rel_obj.id
-        relation.tags = self._get_tag_msg_list_from_tag_obj_list(rel_obj.tags)
-        relation.members = self._get_member_msg_list_from_member_obj_list(rel_obj.members)
-        return relation
-
-    def _get_tag_msg_list_from_tag_obj_list(self, tags_obj_list) :
-        tags = []
-        for i in tags_obj_list :
-            tags.append(Tag(key=str(i.key), value=str(i.value)))
-        return tags
-
-    def _get_member_msg_list_from_member_obj_list(self, member_obj_list) :
-        members = []
-        for i in member_obj_list :
-            members.append(Member(ref=i.ref, role=str(i.role), type=str(i.type)))
-        return members
