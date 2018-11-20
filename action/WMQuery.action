@@ -2,7 +2,6 @@ int32 id
 string ref
 string type
 int32 scope_id
-int32 scope_type
 ---
 Area area
 Building building

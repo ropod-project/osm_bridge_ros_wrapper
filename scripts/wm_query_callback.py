@@ -13,8 +13,7 @@ class WMQueryCallback(object):
         ref = req.id or req.ref
         entity_type = req.type
         scope_id = req.scope_id
-        scope_type = req.scope_type
-        
+
         res = WMQueryResult()
         res.output = None
 
@@ -25,27 +24,46 @@ class WMQueryCallback(object):
                 res.building = OBLWMToROSAdapter.get_building_msg_from_building_obj(building_obj)
             elif entity_type == 'floor':
                 res.output = 'floor'
-                floor_obj = self.osm_bridge.get_floor(ref)
+                if scope_id == 0:
+                    floor_obj = self.osm_bridge.get_floor(ref)
+                else:
+                    floor_obj = self.osm_bridge.get_floor(ref,scope_id=scope_id, scope_role='floor',scope_role_type='relation')
+
                 res.floor = OBLWMToROSAdapter.get_floor_msg_from_floor_obj(floor_obj)
             elif entity_type == 'elevator':
                 res.output = 'elevator'
-                elevator_obj = self.osm_bridge.get_elevator(ref)
+                if scope_id == 0:
+                    elevator_obj = self.osm_bridge.get_elevator(ref)
+                else:
+                    elevator_obj = self.osm_bridge.get_elevator(ref,scope_id=scope_id, scope_role='elevator',scope_role_type='relation')
                 res.elevator = OBLWMToROSAdapter.get_elevator_msg_from_elevator_obj(elevator_obj)
             elif entity_type == 'stairs':
                 res.output = 'stairs'
-                stairs_obj = self.osm_bridge.get_stairs(ref)
+                if scope_id == 0:
+                    stairs_obj = self.osm_bridge.get_stairs(ref)
+                else:
+                    stairs_obj = self.osm_bridge.get_stairs(ref,scope_id=scope_id, scope_role='stairs',scope_role_type='relation')
                 res.stairs = OBLWMToROSAdapter.get_stairs_msg_from_stairs_obj(stairs_obj)
             elif entity_type == 'room':
                 res.output = 'room'
-                room_obj = self.osm_bridge.get_room(ref)
+                if scope_id == 0:
+                    room_obj = self.osm_bridge.get_room(ref)
+                else:
+                    room_obj = self.osm_bridge.get_room(ref,scope_id=scope_id, scope_role='room',scope_role_type='relation')
                 res.room = OBLWMToROSAdapter.get_room_msg_from_room_obj(room_obj)
             elif entity_type == 'area':
                 res.output = 'area'
-                area_obj = self.osm_bridge.get_area(ref)
+                if scope_id == 0:
+                    area_obj = self.osm_bridge.get_area(ref)
+                else:
+                    area_obj = self.osm_bridge.get_area(ref,scope_id=scope_id, scope_role='area', scope_role_type='relation')
                 res.area = OBLWMToROSAdapter.get_area_msg_from_room_obj(room_obj)
             elif entity_type == 'corridor':
                 res.output = 'corridor'
-                corridor_obj = self.osm_bridge.get_corridor(ref)
+                if scope_id == 0:
+                    corridor_obj = self.osm_bridge.get_corridor(ref)
+                else:
+                    corridor_obj = self.osm_bridge.get_corridor(ref,scope_id=scope_id, scope_role='area', scope_role_type='relation')
                 res.corridor = OBLWMToROSAdapter.get_corridor_msg_from_corridor_obj(corridor_obj)
             elif entity_type == 'connection':
                 res.output = 'connection'
@@ -53,29 +71,43 @@ class WMQueryCallback(object):
                 res.connection = OBLWMToROSAdapter.get_connection_msg_from_connection_obj(connection_obj)
             elif entity_type == 'local_area':
                 res.output = 'local_area'
-                local_area_obj = self.osm_bridge.get_local_area(ref)
+                if scope_id == 0:
+                    local_area_obj = self.osm_bridge.get_local_area(ref)
+                else:
+                    local_area_obj = self.osm_bridge.get_local_area(ref,scope_id=scope_id, scope_role='local_area', scope_role_type='relation')
                 local_area_obj.geometry
                 res.local_area = OBLWMToROSAdapter.get_local_area_msg_from_local_area_obj(local_area_obj)
             elif entity_type == 'door':
                 res.output = 'door'
-                door_obj = self.osm_bridge.get_door(ref)
+                if scope_id == 0:
+                    door_obj = self.osm_bridge.get_door(ref)
+                else:
+                    door_obj = self.osm_bridge.get_door(ref,scope_id=scope_id, scope_role='door', scope_role_type='relation')
                 res.door = OBLWMToROSAdapter.get_door_msg_from_door_obj(door_obj)
             elif entity_type == 'wall':
                 res.output = 'wall'
-                wall_obj = self.osm_bridge.get_wall(ref)
+                if scope_id == 0:
+                    wall_obj = self.osm_bridge.get_wall(ref)
+                else:
+                    wall_obj = self.osm_bridge.get_wall(ref,scope_id=scope_id, scope_role='wall', scope_role_type='relation')
                 res.wall = OBLWMToROSAdapter.get_wall_msg_from_wall_obj(wall_obj)
             elif entity_type == 'side':
                 res.output = 'side'
-                side_obj = self.osm_bridge.get_side(ref)
+                if scope_id == 0:
+                    side_obj = self.osm_bridge.get_side(ref)
+                else:
+                    side_obj = self.osm_bridge.get_side(ref,scope_id=scope_id, scope_role='side', scope_role_type='relation')
                 res.side = OBLWMToROSAdapter.get_side_msg_from_side_obj(side_obj)
             elif entity_type == 'feature':
                 res.output = 'feature'
-                feature_obj = self.osm_bridge.get_feature(ref)
+                if scope_id == 0:
+                    feature_obj = self.osm_bridge.get_feature(ref)
+                else:
+                    feature_obj = self.osm_bridge.get_feature(ref,scope_id=scope_id, scope_role='side', scope_role_type='relation')
                 res.feature = OBLWMToROSAdapter.get_feature_msg_from_feature_obj(feature_obj)
             elif entity_type == 'point':
                 res.output = 'point'
                 point_obj = self.osm_bridge.get_point(ref)
-                print(point_obj)
                 res.point = OBLWMToROSAdapter.get_point_msg_from_point_obj(point_obj)
             elif entity_type == 'shape':
                 res.output = 'shape'
