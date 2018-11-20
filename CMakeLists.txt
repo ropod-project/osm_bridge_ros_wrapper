@@ -30,37 +30,39 @@ include_directories(
 )
 
 add_message_files(
-  DIRECTORY msg
+  DIRECTORY msg/osm
   FILES
-  osm/Node.msg
-  osm/Way.msg
-  osm/Tag.msg
-  osm/Relation.msg
-  osm/Member.msg
+  Node.msg
+  Way.msg
+  Tag.msg
+  Relation.msg
+  Member.msg
 )
 
 add_message_files(
-  DIRECTORY msg
+  DIRECTORY msg/planner
   FILES
-  planner/PlannerArea.msg
+  PlannerArea.msg
 )
 
 add_message_files(
-  DIRECTORY msg
+  DIRECTORY msg/wm
   FILES
-  wm/Area.msg
-  wm/Building.msg
-  wm/Connection.msg
-  wm/Corridor.msg
-  wm/Door.msg
-  wm/Elevator.msg
-  wm/Feature.msg
-  wm/Floor.msg
-  wm/LocalArea.msg
-  wm/Room.msg
-  wm/Side.msg
-  wm/Stairs.msg
-  wm/Wall.msg
+  Area.msg
+  Building.msg
+  Connection.msg
+  Corridor.msg
+  Door.msg
+  Elevator.msg
+  Feature.msg
+  Floor.msg
+  LocalArea.msg
+  Room.msg
+  Side.msg
+  Stairs.msg
+  Wall.msg
+  Point.msg
+  Shape.msg
 )
 
 

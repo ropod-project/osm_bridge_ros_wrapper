@@ -1,0 +1,9 @@
+int32 id
+string highway
+bool oneway
+int32 lanes
+int32 lanes_forward
+int32 lanes_backward
+float32 lanes_forward_speed
+float32 lanes_backward_speed
+int32[] point_ids
