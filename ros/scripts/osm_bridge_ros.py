@@ -7,9 +7,15 @@ from OBL import OSMBridge, OSMAdapter, OccGridGenerator, PathPlanner
 import rospy
 from actionlib import SimpleActionServer 
 from osm_bridge_ros_wrapper.msg import *
-from osm_query_callback import OSMQueryCallback
-from wm_query_callback import WMQueryCallback
-from obl_wm_to_ros_adapter import OBLWMToROSAdapter
+# from osm_query_callback import OSMQueryCallback
+# from wm_query_callback import WMQueryCallback
+# from obl_wm_to_ros_adapter import OBLWMToROSAdapter
+# from osm_bridge_ros_wrapper.osm_query_callback import OSMQueryCallback
+# import osm_bridge_ros_wrapper.osm_query_callback 
+# import osm_bridge_ros_wrapper
+from osm_bridge_ros_wrapper.wm_query_callback import WMQueryCallback
+from osm_bridge_ros_wrapper.osm_query_callback import OSMQueryCallback
+from osm_bridge_ros_wrapper.obl_wm_to_ros_adapter import OBLWMToROSAdapter
 
 class OSMBridgeROS(object):
 

@@ -30,7 +30,7 @@ include_directories(
 )
 
 add_message_files(
-  DIRECTORY msg/osm
+  DIRECTORY ros/msg/osm
   FILES
   Node.msg
   Way.msg
@@ -40,13 +40,13 @@ add_message_files(
 )
 
 add_message_files(
-  DIRECTORY msg/planner
+  DIRECTORY ros/msg/planner
   FILES
   PlannerArea.msg
 )
 
 add_message_files(
-  DIRECTORY msg/wm
+  DIRECTORY ros/msg/wm
   FILES
   Area.msg
   Building.msg
@@ -67,7 +67,7 @@ add_message_files(
 
 
 add_action_files(
-  DIRECTORY action
+  DIRECTORY ros/action
   FILES
   WMQuery.action
   OSMQuery.action
