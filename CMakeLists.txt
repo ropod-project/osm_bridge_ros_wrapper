@@ -74,6 +74,7 @@ add_action_files(
   PathPlanner.action
   GridMapGenerator.action
 )
+catkin_python_setup()
 
 generate_messages(
   DEPENDENCIES
@@ -84,3 +85,4 @@ generate_messages(
 catkin_package(CATKIN_DEPENDS
   message_runtime std_msgs actionlib_msgs
 )
+
