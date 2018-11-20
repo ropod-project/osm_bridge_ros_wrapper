@@ -7,3 +7,4 @@ int32[] connection_ids
 int32 topology_id
 int32[] local_area_ids
 int32 shape_id
+string amenity

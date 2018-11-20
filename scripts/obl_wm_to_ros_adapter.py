@@ -63,6 +63,7 @@ class OBLWMToROSAdapter(object):
         room.topology_id = room_obj._topology_id if room_obj._topology_id is not None else []
         room.local_area_ids = room_obj._local_area_ids if room_obj._local_area_ids is not None else []
         room.shape_id = room_obj._geometry_id if room_obj._geometry_id is not None else []
+        room.amenity = OBLWMToROSAdapter._convert_to_string(room_obj.amenity)
         return room
 
     @staticmethod

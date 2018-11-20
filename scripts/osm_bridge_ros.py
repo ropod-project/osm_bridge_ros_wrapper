@@ -63,11 +63,11 @@ class OSMBridgeROS(object):
         ''' Access the fields of goal of the wm_query message and ask OSMBridge for it.
         After receiving info from OSMBridge, it packages it as response message and send it back.
         '''
-        res = self.wm_query_callback.get_response(req)
+        res = self.wm_query_callback.get_safe_response(req)
         if res is not None:
             self.wm_query_server.set_succeeded(res)
         else:
-            self.wm_query_server.set_rejected(res)
+            self.wm_query_server.set_aborted(res)
 
     def _osm_query(self, req):
         ''' Access the fields of goal of the osm_query message and ask OSMBridge for it.
@@ -91,6 +91,7 @@ class OSMBridgeROS(object):
         destination_task = req.destination_task
 
         path = []
+        notSucceeded = False
 
         if start_local_area and destination_local_area:
             path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,destination_area=destination_area, start_local_area=start_local_area,destination_local_area=destination_local_area)
@@ -101,14 +102,18 @@ class OSMBridgeROS(object):
         elif start_position and destination_local_area:
             path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,destination_area=destination_area, robot_position=start_position,destination_local_area=destination_local_area)
         else:
-            rospy.logwarn("Path planner need more arguments to plan the path")
+            rospy.logerr("Path planner need more arguments to plan the path")
+            notSucceeded = True
 
         
         res = PathPlannerResult()
         for pt in path:
             res.planner_areas.append(OBLWMToROSAdapter.get_planner_area(pt))
         
-        self.path_planner_server.set_succeeded(res)
+        if notSucceeded :
+            self.path_planner_server.set_aborted(res)
+        else :
+            self.path_planner_server.set_succeeded(res)
 
     def _grid_map_generator(self, req):
         '''Access the fields of goal of GridMapGenerator.action message and call
