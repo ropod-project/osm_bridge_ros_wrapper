@@ -167,6 +167,10 @@ class OBLWMToROSAdapter(object):
             planner_area.corridor = OBLWMToROSAdapter.get_corridor_msg_from_corridor_obj(planner_area_object)
         elif planner_area_object.type == 'area':
             planner_area.area = OBLWMToROSAdapter.get_area_msg_from_area_obj(planner_area_object)
+        elif planner_area_object.type == 'elevator':
+            planner_area.elevator = OBLWMToROSAdapter.get_elevator_msg_from_elevator_obj(planner_area_object)
+        elif planner_area_object.type == 'stairs':
+            planner_area.stairs = OBLWMToROSAdapter.get_stairs_msg_from_stairs_obj(planner_area_object)
 
         planner_area.area_type = OBLWMToROSAdapter._convert_to_string(planner_area_object.type)
 
