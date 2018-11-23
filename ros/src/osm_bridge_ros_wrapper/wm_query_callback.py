@@ -23,7 +23,6 @@ class WMQueryCallback(object):
 
     def _get_response(self, ref, entity_type, scope_id):
         res = WMQueryResult()
-        res.output = None
         if entity_type == 'building':
             res.output = 'building'
             building_obj = self.osm_bridge.get_building(ref)
@@ -64,12 +63,12 @@ class WMQueryCallback(object):
             else:
                 area_obj = self.osm_bridge.get_area(ref,scope_id=scope_id, scope_role='area', scope_role_type='relation')
             res.area = OBLWMToROSAdapter.get_area_msg_from_room_obj(room_obj)
-        elif entity_type == 'corridor':
+        elif entity_type == 'corridor' or entity_type == 'junction':
             res.output = 'corridor'
             if scope_id == 0:
                 corridor_obj = self.osm_bridge.get_corridor(ref)
             else:
-                corridor_obj = self.osm_bridge.get_corridor(ref,scope_id=scope_id, scope_role='area', scope_role_type='relation')
+                corridor_obj = self.osm_bridge.get_corridor(ref,scope_id=scope_id, scope_role='corridor', scope_role_type='relation')
             res.corridor = OBLWMToROSAdapter.get_corridor_msg_from_corridor_obj(corridor_obj)
         elif entity_type == 'connection':
             res.output = 'connection'
@@ -119,3 +118,5 @@ class WMQueryCallback(object):
             res.output = 'shape'
             shape_obj = self.osm_bridge.get_shape(ref)
             res.shape = OBLWMToROSAdapter.get_shape_msg_from_shape_obj(shape_obj)
+
+        return res
