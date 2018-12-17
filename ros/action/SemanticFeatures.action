@@ -1,0 +1,8 @@
+int32 id
+string ref
+---
+Feature[] features
+Side[] wall_sides
+Side[] door_sides
+Pillar[] pillars
+---
