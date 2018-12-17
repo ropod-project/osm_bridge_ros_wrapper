@@ -124,6 +124,14 @@ class OBLWMToROSAdapter(object):
         return wall
 
     @staticmethod
+    def get_pillar_msg_from_pillar_obj(pillar_obj) :
+        pillar = Pillar()
+        pillar.id = pillar_obj.id
+        pillar.level = OBLWMToROSAdapter._convert_to_int(pillar_obj.level)
+        pillar.shape_id = pillar_obj._geometry_id 
+        return pillar
+
+    @staticmethod
     def get_side_msg_from_side_obj(side_obj) :
         side = Side()
         side.texture = OBLWMToROSAdapter._convert_to_string(side_obj.texture)
@@ -182,6 +190,27 @@ class OBLWMToROSAdapter(object):
             planner_area.exit_door = OBLWMToROSAdapter.get_door_msg_from_door_obj(planner_area_object.exit_door)
 
         return planner_area
+
+    @staticmethod
+    def get_semantic_features_ros_from_semantic_features_obj(semantic_features_object):
+        wall_sides = []
+        door_sides = []
+        features = []
+        pillars = []
+        if semantic_features_object.wall_sides is not None:
+            for wall_side in semantic_features_object.wall_sides:
+                wall_sides.append(OBLWMToROSAdapter.get_side_msg_from_side_obj(wall_side))
+        if semantic_features_object.door_sides is not None:
+            for door_side in semantic_features_object.door_sides:
+                door_sides.append(OBLWMToROSAdapter.get_side_msg_from_side_obj(door_side))
+        if semantic_features_object.features is not None:
+            for feature in semantic_features_object.features:
+                features.append(OBLWMToROSAdapter.get_feature_msg_from_feature_obj(feature))
+        if semantic_features_object.pillars is not None:
+            for pillar in semantic_features_object.pillars:
+                pillars.append(OBLWMToROSAdapter.get_pillar_msg_from_pillar_obj(pillar))
+        return wall_sides, door_sides, features, pillars
+
 
     @staticmethod
     def _convert_to_int(string):
