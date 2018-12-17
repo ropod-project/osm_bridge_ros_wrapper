@@ -3,18 +3,14 @@
 PACKAGE = 'osm_bridge_ros_wrapper'
 NODE = 'osm_bridge_ros'
 
-from OBL import OSMBridge, OSMAdapter, OccGridGenerator, PathPlanner
+from OBL import OSMBridge, OSMAdapter, OccGridGenerator, PathPlanner, SemanticFeaturesFinder
 import rospy
 from actionlib import SimpleActionServer 
 from osm_bridge_ros_wrapper.msg import *
-# from osm_query_callback import OSMQueryCallback
-# from wm_query_callback import WMQueryCallback
-# from obl_wm_to_ros_adapter import OBLWMToROSAdapter
-# from osm_bridge_ros_wrapper.osm_query_callback import OSMQueryCallback
-# import osm_bridge_ros_wrapper.osm_query_callback 
-# import osm_bridge_ros_wrapper
+
 from osm_bridge_ros_wrapper.wm_query_callback import WMQueryCallback
 from osm_bridge_ros_wrapper.osm_query_callback import OSMQueryCallback
+from osm_bridge_ros_wrapper.semantic_features_callback import SemanticFeaturesCallback
 from osm_bridge_ros_wrapper.obl_wm_to_ros_adapter import OBLWMToROSAdapter
 
 class OSMBridgeROS(object):
@@ -59,6 +55,11 @@ class OSMBridgeROS(object):
         self.path_planner = PathPlanner(self.osm_bridge)
         self.path_planner.set_building(building)
         self.path_planner_server.start()
+
+        self.semantic_features_server = SimpleActionServer('/semantic_features', SemanticFeaturesAction, self._semantic_features, False)
+        self.semantic_features_finder = SemanticFeaturesFinder(self.osm_bridge)
+        self.semantic_features_server.start()
+        self.semantic_features_callback = SemanticFeaturesCallback(self.semantic_features_finder)
 
         self.grid_map_generator_server = SimpleActionServer('/grid_map_generator', GridMapGeneratorAction, self._grid_map_generator, False)
         self.grid_map_generator_server.start()
@@ -141,6 +142,13 @@ class OSMBridgeROS(object):
         res = GridMapGeneratorResult()
         res.filename = filename
         self.grid_map_generator_server.set_succeeded(res)
+
+    def _semantic_features(self, req):
+        res = self.semantic_features_callback.get_safe_response(req)
+        if res is not None:
+            self.semantic_features_server.set_succeeded(res)
+        else:
+            self.semantic_features_server.set_aborted(res)
 
 
 if __name__ == "__main__":

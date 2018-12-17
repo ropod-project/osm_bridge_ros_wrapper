@@ -63,6 +63,7 @@ add_message_files(
   Wall.msg
   Point.msg
   Shape.msg
+  Pillar.msg
 )
 
 
@@ -73,6 +74,7 @@ add_action_files(
   OSMQuery.action
   PathPlanner.action
   GridMapGenerator.action
+  SemanticFeatures.action
 )
 catkin_python_setup()
 
