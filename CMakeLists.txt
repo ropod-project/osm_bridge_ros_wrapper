@@ -43,6 +43,7 @@ add_message_files(
   DIRECTORY ros/msg/planner
   FILES
   PlannerArea.msg
+  BlockedConnection.msg
 )
 
 add_message_files(
