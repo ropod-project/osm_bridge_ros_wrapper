@@ -96,23 +96,38 @@ class OSMBridgeROS(object):
         destination_local_area = req.destination_local_area
         start_position = req.start_position
         destination_task = req.destination_task
+        temp = req.blocked_connections
+        blocked_connections = []
+        for t in temp:
+            blocked_connections.append([t.start_id, t.end_id])
+        relax_traffic_rules = False
 
         path = []
         notSucceeded = False
 
+        if req.relax_traffic_rules:
+            relax_traffic_rules = True
+
         if start_local_area and destination_local_area:
-            path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,destination_area=destination_area, start_local_area=start_local_area,destination_local_area=destination_local_area)
+            path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,\
+              destination_area=destination_area, start_local_area=start_local_area,destination_local_area=destination_local_area,\
+              blocked_connections=blocked_connections, relax_traffic_rules=relax_traffic_rules)
         elif start_local_area and destination_task:
-            path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,destination_area=destination_area, start_local_area=start_local_area,destination_task=destination_task)
+            path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,\
+              destination_area=destination_area, start_local_area=start_local_area,destination_task=destination_task,\
+              blocked_connections=blocked_connections, relax_traffic_rules=relax_traffic_rules)
         elif start_position and destination_task:
-            path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,destination_area=destination_area, robot_position=start_position,destination_task=destination_task)
+            path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,\
+              destination_area=destination_area, robot_position=start_position,destination_task=destination_task,\
+              blocked_connections=blocked_connections, relax_traffic_rules=relax_traffic_rules)
         elif start_position and destination_local_area:
-            path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,destination_area=destination_area, robot_position=start_position,destination_local_area=destination_local_area)
+            path = self.path_planner.get_path_plan(start_floor=start_floor, destination_floor=destination_floor,start_area=start_area,\
+              destination_area=destination_area, robot_position=start_position,destination_local_area=destination_local_area,\
+              blocked_connections=blocked_connections, relax_traffic_rules=relax_traffic_rules)
         else:
             rospy.logerr("Path planner need more arguments to plan the path")
             notSucceeded = True
 
-        
         res = PathPlannerResult()
         for pt in path:
             res.planner_areas.append(OBLWMToROSAdapter.get_planner_area(pt))

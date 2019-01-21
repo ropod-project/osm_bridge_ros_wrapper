@@ -17,7 +17,8 @@ class PathPlannerClient(object):
         connected = self.client.wait_for_server()
         rospy.loginfo("Connected to server")
 
-        req = PathPlannerGoal(start_floor='AMK_L-1', destination_floor='AMK_L4',start_area='AMK_D_L-1_C41',destination_area='AMK_B_L4_C1', start_local_area='AMK_D_L-1_C41_LA1',destination_local_area='AMK_B_L4_C1_LA1')
+        req = PathPlannerGoal(start_floor='AMK_L-1', destination_floor='AMK_L4',start_area='AMK_D_L-1_C41',\
+          destination_area='AMK_B_L4_C1', start_local_area='AMK_D_L-1_C41_LA1',destination_local_area='AMK_B_L4_C1_LA1')
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
