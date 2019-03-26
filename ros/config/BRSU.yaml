@@ -1,0 +1,5 @@
+# Reference origin (in lat/long degrees) of OSM in BRSU (near elevator)
+# The latitude and longitude should be set the same here and for map generation
+ref_latitude: 50.7800401
+ref_longitude: 7.18226
+building: BRSU
