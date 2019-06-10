@@ -1,0 +1,17 @@
+# Goal
+# values for argument 'type'
+uint8 X_Y_AND_FLOOR=0
+uint8 AREA=1
+uint8 LOCAL_AREA=2
+uint8 type
+
+float32 x
+float32 y
+# only one of the below is required
+int32 id
+string ref
+---
+# Result
+Point point
+---
+# Feedback
