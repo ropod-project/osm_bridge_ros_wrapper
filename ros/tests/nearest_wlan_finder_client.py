@@ -19,27 +19,27 @@ class NearestWLANFinderClient(object):
         self.client.wait_for_server()
         rospy.loginfo("Connected to server")
 
-        req = NearestWLANGoal(x=0.0, y=5.0, type=NearestWLANGoal.X_Y_AND_FLOOR, ref='BRSU_L0')
+        req = NearestWLANGoal(x=0.0, y=5.0, is_x_y_provided=True, floor='BRSU_L0')
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
-        req = NearestWLANGoal(x=0.0, y=5.0, type=NearestWLANGoal.X_Y_AND_FLOOR, id=127)
+        req = NearestWLANGoal(x=0.0, y=5.0, is_x_y_provided=True, floor='127')
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
-        req = NearestWLANGoal(type=NearestWLANGoal.AREA, ref='BRSU_A_L0_A1')
+        req = NearestWLANGoal(is_x_y_provided=False, area='BRSU_A_L0_A1')
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
-        req = NearestWLANGoal(type=NearestWLANGoal.AREA, id=125)
+        req = NearestWLANGoal(is_x_y_provided=False, area='125')
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
-        req = NearestWLANGoal(type=NearestWLANGoal.LOCAL_AREA, ref='BRSU_A_L0_A1_LA1')
+        req = NearestWLANGoal(is_x_y_provided=False, local_area='BRSU_A_L0_A1_LA1')
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
 
-        req = NearestWLANGoal(type=NearestWLANGoal.LOCAL_AREA, id=120)
+        req = NearestWLANGoal(is_x_y_provided=False, local_area='120')
         self.client.send_goal(req, done_cb=self.done_cb)
         self.client.wait_for_result()
         rospy.signal_shutdown("Test complete")

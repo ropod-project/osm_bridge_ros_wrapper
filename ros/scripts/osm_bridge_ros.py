@@ -173,23 +173,33 @@ class OSMBridgeROS(object):
 
     def _nearest_wlan(self, req):
         floor_name, area_name, local_area_name, x, y = None, None, None, None, None
-        if req.type == NearestWLANGoal.X_Y_AND_FLOOR:
-            floor_name = req.ref if req.ref != '' else req.id
+        if req.is_x_y_provided:
             x = req.x
             y = req.y
-        elif req.type == NearestWLANGoal.AREA:
-            area_name = req.ref if req.ref != '' else req.id
-        elif req.type == NearestWLANGoal.LOCAL_AREA:
-            local_area_name = req.ref if req.ref != '' else req.id
+        floor_name = OSMBridgeROS._get_ref_or_id_from_string(req.floor)
+        area_name = OSMBridgeROS._get_ref_or_id_from_string(req.area)
+        local_area_name = OSMBridgeROS._get_ref_or_id_from_string(req.local_area)
 
         point_obj = self.nearest_wlan_finder.get_nearest_wlan(
-            x=x, y=y, floor_name=floor_name, area_name=area_name, local_area_name=local_area_name)
+            x=x, y=y, floor_name=floor_name, area_name=area_name, 
+            local_area_name=local_area_name)
 
         if point_obj:
-            res = NearestWLANResult(point=OBLWMToROSAdapter.get_point_msg_from_point_obj(point_obj))
+            res = NearestWLANResult(
+                point=OBLWMToROSAdapter.get_point_msg_from_point_obj(point_obj))
             self.nearest_wlan_server.set_succeeded(res)
         else:
             self.nearest_wlan_server.set_aborted()
+
+    @staticmethod
+    def _get_ref_or_id_from_string(var):
+        ref = None
+        if var != '':
+            try:
+                ref = int(var)
+            except Exception as e:
+                ref = var
+        return ref
 
 
 if __name__ == "__main__":
