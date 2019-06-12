@@ -3,7 +3,8 @@
 PACKAGE = 'osm_bridge_ros_wrapper'
 NODE = 'osm_bridge_ros'
 
-from OBL import OSMBridge, OSMAdapter, OccGridGenerator, PathPlanner, SemanticFeaturesFinder
+from OBL import OSMBridge, OSMAdapter, OccGridGenerator, PathPlanner
+from OBL import SemanticFeaturesFinder, NearestWLANFinder
 import rospy
 from actionlib import SimpleActionServer 
 from osm_bridge_ros_wrapper.msg import *
@@ -22,6 +23,7 @@ class OSMBridgeROS(object):
         ref_lon = rospy.get_param('~ref_longitude')
         building = rospy.get_param('~building')
         global_origin = [ref_lat, ref_lon]
+        print(building)
 
         rospy.loginfo("Server " + server_ip + ":" + str(server_port))
         rospy.loginfo("Global origin: " + str(global_origin))
@@ -63,6 +65,10 @@ class OSMBridgeROS(object):
 
         self.grid_map_generator_server = SimpleActionServer('/grid_map_generator', GridMapGeneratorAction, self._grid_map_generator, False)
         self.grid_map_generator_server.start()
+
+        self.nearest_wlan_server = SimpleActionServer('/nearest_wlan', NearestWLANAction, self._nearest_wlan, False)
+        self.nearest_wlan_finder = NearestWLANFinder(self.osm_bridge)
+        self.nearest_wlan_server.start()
 
         rospy.loginfo("Servers started. Listening for queries...")
 
@@ -164,6 +170,36 @@ class OSMBridgeROS(object):
             self.semantic_features_server.set_succeeded(res)
         else:
             self.semantic_features_server.set_aborted(res)
+
+    def _nearest_wlan(self, req):
+        floor_name, area_name, local_area_name, x, y = None, None, None, None, None
+        if req.is_x_y_provided:
+            x = req.x
+            y = req.y
+        floor_name = OSMBridgeROS._get_ref_or_id_from_string(req.floor)
+        area_name = OSMBridgeROS._get_ref_or_id_from_string(req.area)
+        local_area_name = OSMBridgeROS._get_ref_or_id_from_string(req.local_area)
+
+        point_obj = self.nearest_wlan_finder.get_nearest_wlan(
+            x=x, y=y, floor_name=floor_name, area_name=area_name, 
+            local_area_name=local_area_name)
+
+        if point_obj:
+            res = NearestWLANResult(
+                point=OBLWMToROSAdapter.get_point_msg_from_point_obj(point_obj))
+            self.nearest_wlan_server.set_succeeded(res)
+        else:
+            self.nearest_wlan_server.set_aborted()
+
+    @staticmethod
+    def _get_ref_or_id_from_string(var):
+        ref = None
+        if var != '':
+            try:
+                ref = int(var)
+            except Exception as e:
+                ref = var
+        return ref
 
 
 if __name__ == "__main__":

@@ -1,0 +1,24 @@
+# Goal
+
+# The information can be provided with any of the following ways. Provide:
+# - x and y and floor
+# - x and y and area
+# - x and y and local_area
+# - just area
+# - just local_area
+
+# tells server if x and y values should be considered or not
+bool is_x_y_provided
+
+# robot's current position in map coordinates
+float32 x
+float32 y
+# robot's current position in OSM semantic form
+string floor
+string area
+string local_area
+---
+# Result
+Point point
+---
+# Feedback

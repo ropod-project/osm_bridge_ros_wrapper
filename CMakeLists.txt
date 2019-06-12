@@ -76,6 +76,7 @@ add_action_files(
   PathPlanner.action
   GridMapGenerator.action
   SemanticFeatures.action
+  NearestWLAN.action
 )
 catkin_python_setup()
 
