@@ -1,0 +1,5 @@
+# Reference origin (in lat/long degrees) of OSM in Logimat (near elevator)
+# The latitude and longitude should be set the same here and for map generation
+ref_latitude: 48.69389
+ref_longitude: 9.1902858
+building: Logimat
